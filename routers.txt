@@ -1,0 +1,75 @@
+---------------- CONFIGURACION DE LOS ROUTERS -----------------------
+
+------- ROUTER 10 --------
+interface g0/0
+ip address 1.1.10.2 255.255.255.0
+no shutdown
+interface g0/1
+ip address 1.1.8.1 255.255.255.0
+no shutdown
+interface g0/2
+ip address 1.1.7.1 255.255.255.0
+no shutdown
+
+router rip
+version 2
+no auto-summary
+network 1.1.10.0
+network 1.1.7.0
+network 1.1.8.0
+
+------- ROUTER 11 --------
+interface g0/0
+ip address 1.1.7.2 255.255.255.0
+no shutdown
+interface g0/1
+ip address 1.1.6.1 255.255.255.0
+no shutdown
+interface g0/2
+ip address 1.1.9.2 255.255.255.0
+no shutdown
+router rip
+version 2
+no auto-summary
+network 1.1.7.0
+network 1.1.6.0
+network 1.1.9.0
+
+------- ROUTER 12 --------
+
+interface g0/0
+ip address 1.1.11.1 255.255.255.0
+no shutdown
+interface g0/1
+ip address 1.1.8.2 255.255.255.0
+no shutdown
+
+router rip
+version 2
+no auto-summary
+network 1.1.11.0
+network 1.1.8.0
+
+
+---------------- CONFIGURACION ACL -----------------------
+
+------- ROUTER 10 --------
+access-list 103 deny icmp any any
+access-list 103 permit ip any any
+
+interface g0/1
+ip access-group 103 out
+
+------- ROUTER 11 --------
+access-list 103 deny icmp any any
+access-list 103 permit ip any any
+
+interface g0/1
+ip access-group 103 out
+
+------- ROUTER 12 --------
+access-list 103 deny icmp any any
+access-list 103 permit ip any any
+
+interface g0/0
+ip access-group 103 out
